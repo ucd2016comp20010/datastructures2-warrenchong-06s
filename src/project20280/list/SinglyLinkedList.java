@@ -99,7 +99,32 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public void add(int position, E e) {
-        // TODO
+        Node<E> cur = (Node<E>) head;
+        //Count is 1, because if you wanted to add an element to the start, use addFirst() instead
+        int count = 1;
+
+
+        //Loop to check end of Linked List
+        while (cur.next != null) {
+
+            //Check if this position is the desired index
+            if (count == position) {
+
+                // if so, create a new node with the given element and the current position's destination as the next node
+                Node<E> newNode = new Node<>(e, cur.next);
+
+                //Set the current position's destination as the new node
+                cur.next = newNode;
+            }
+
+            //Add to tracker if not the position
+            count++;
+
+            //Keep moving through the Linked List
+            cur = cur.next;
+        }
+
+
 
     }
 
@@ -199,7 +224,10 @@ public class SinglyLinkedList<E> implements List<E> {
         System.out.println(ll);
         ll.remove(5);
         System.out.println(ll);
+
         System.out.println("Element at position 2: " + ll.get(2));
+        ll.add(2, 100);
+        System.out.println(ll);
 
     }
 }
