@@ -103,7 +103,6 @@ public class SinglyLinkedList<E> implements List<E> {
         //Count is 1, because if you wanted to add an element to the start, use addFirst() instead
         int count = 1;
 
-
         //Loop to check end of Linked List
         while (cur.next != null) {
 
@@ -123,9 +122,6 @@ public class SinglyLinkedList<E> implements List<E> {
             //Keep moving through the Linked List
             cur = cur.next;
         }
-
-
-
     }
 
 
@@ -153,21 +149,56 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E remove(int position) {
-        // TODO
-        return null;
+        Node<E> cur = (Node<E>) head;
+        //Count is 1, because if you wanted to remove an element to the start, use removeFirst() instead
+        int count = 1;
+        Node<E> targetNode = null; //Node to be removed
+
+        //Loop to check end of Linked List,
+        while (cur != null) {
+
+            //Check if this position is the desired index
+            if (count == position) {
+
+                targetNode = cur.next; // if so, save the target node of the current node
+
+                size--; //Reduce the size of the list
+
+                //Set the current position's destination as that target node's destination node
+                cur.next = targetNode.next;
+
+            }
+
+            count++; //Add to tracker if not the position
+
+            cur = cur.next; //Keep moving through the Linked List
+
+        }
+
+        if (targetNode != null) {
+            return targetNode.getElement(); //Return the target node's element
+        } else  {  //This case shouldn't occur as targetNode should be filled at some point, but in case it doesn't...
+            System.out.println("Target Node is null for some reason...");
+            return null;
+        }
+
     }
 
     @Override
     public E removeFirst() {
-        // TODO
+        //Get the first element from the head
+        E firstElement = head.getElement();
+
+        //Set the new head of the Linked List as the next element of the inital head
         head = head.getNext();
+
+        //Reduce the size of the Linked List
         size--;
-        return null;
+        return firstElement;
     }
 
     @Override
     public E removeLast() {
-        // TODO
         return null;
     }
 
@@ -226,7 +257,13 @@ public class SinglyLinkedList<E> implements List<E> {
         System.out.println(ll);
 
         System.out.println("Element at position 2: " + ll.get(2));
+
+        //Check functionality of add()
         ll.add(2, 100);
+        System.out.println(ll);
+
+        //Check functionality of remove()
+        ll.remove(2);
         System.out.println(ll);
 
     }
