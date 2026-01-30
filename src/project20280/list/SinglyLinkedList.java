@@ -80,7 +80,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
     //@Override
     public boolean isEmpty() {
-        if (size == 0) {
+        if (head == null) {
             return true;
         }
         return false;
@@ -88,7 +88,13 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E get(int position) {
-        return null;
+        Node<E> cur = (Node<E>) head;
+        E target = head.getElement();
+        for (int i = 0; i < position; i++) {
+            cur = cur.next;
+            target = cur.getElement();
+        }
+        return target;
     }
 
     @Override
@@ -129,6 +135,8 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E removeFirst() {
         // TODO
+        head = head.getNext();
+        size--;
         return null;
     }
 
@@ -183,13 +191,15 @@ public class SinglyLinkedList<E> implements List<E> {
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addLast(-1);
-        //ll.removeLast();
-        //ll.removeFirst();
-        //System.out.println("I accept your apology");
-        //ll.add(3, 2);
+        System.out.println(ll);
+        ll.removeLast();
+        ll.removeFirst();
+        System.out.println("I accept your apology");
+        ll.add(3, 2);
         System.out.println(ll);
         ll.remove(5);
         System.out.println(ll);
+        System.out.println("Element at position 2: " + ll.get(2));
 
     }
 }
