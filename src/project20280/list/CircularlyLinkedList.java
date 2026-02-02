@@ -139,23 +139,43 @@ public class CircularlyLinkedList<E> implements List<E> {
 
     @Override
     public E removeFirst() {
+        //Check if the linked list is empty
         if (tail == null) {
            System.out.println("Circular Linked List is empty");
            return null;
         }
 
+        //Find the head node
         Node <E> cur = tail.next;
+
+        //Set the new head node as the head's destination
         tail.next = cur.next;
 
-        size--;
-        return cur.data;
+        size--; //Reduce size
+        return cur.data; //Return data of removed node
     }
 
     @Override
     public E removeLast() {
+        //Check if the linked list is empty
+        if (tail == null) {
+            System.out.println("Circular Linked List is empty");
+            return null;
+        }
 
-        size--;
-        return null;
+        //Find the head node
+        Node <E> cur = tail.next;
+
+        //Loop to the second last value in the list
+        for (int i = 0; i < size - 1; i++){
+            cur = cur.next;
+        }
+
+        // Set the tail as the second last value
+        tail.next = cur;
+
+        size--; //reduce the size
+        return cur.data; //return the data of the deleted node
     }
 
     @Override
