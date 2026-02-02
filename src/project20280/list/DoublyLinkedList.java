@@ -31,14 +31,14 @@ public class DoublyLinkedList<E> implements List<E> {
 
     }
 
-    private Node<E> head;
-    private Node<E> tail;
+    private Node<E> header;
+    private Node<E> trailer;
     private int size = 0;
 
     public DoublyLinkedList() {
-        head = new Node<E>(null, null, null);
-        tail = new Node<E>(null, head, null);
-        head.next = tail;
+        header = new Node<E>(null, null, null);
+        trailer = new Node<E>(null, header, null);
+        header.next = trailer;
     }
 
     public int getSize(){
@@ -59,7 +59,9 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        // TODO
+        if (header.next == null) {
+            return true;
+        }
         return false;
     }
 
@@ -81,11 +83,11 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     private class DoublyLinkedListIterator<E> implements Iterator<E> {
-        Node<E> curr = (Node<E>) head.next;
+        Node<E> curr = (Node<E>) header.next;
 
         @Override
         public boolean hasNext() {
-            return curr != tail;
+            return curr != trailer;
         }
 
         @Override
@@ -102,15 +104,39 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     private E remove(Node<E> n) {
-        // TODO
-        return null;
+        //Set current as the head of the Linked List
+        Node <E> cur = header;
+        Node <E> targetNode = null;
+
+        //System.out.println("Testing private remove function.");
+
+        //Loop to the end of the list
+        while (cur.next != null){
+            //System.out.println("Current element: " + cur.data);
+            //If current's destination is the target node
+            if (cur.next == n){
+                //Set the target node
+                targetNode = cur.next;
+
+                //Link the current's new destination as the target node's destination
+                cur.next = targetNode.next;
+
+                //Link the target node's predecessor as the current node
+                targetNode.next.prev = cur;
+            }
+
+            //Continue looping through the list
+            cur = cur.next;
+        }
+        //Return the data from the removed target node
+        return targetNode.getData();
     }
 
     public E first() {
         if (isEmpty()) {
             return null;
         }
-        return head.next.getData();
+        return header.next.getData();
     }
 
     public E last() {
@@ -120,33 +146,39 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public E removeFirst() {
-        // TODO
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+
+        return remove(header.next);
+
     }
 
     @Override
     public E removeLast() {
-        // TODO
-        return null;
+        if (isEmpty()){
+            return null;
+        }
+        return remove(trailer.prev);
     }
 
     @Override
     public void addLast(E e) {
-        // TODO
+        addBetween(e, trailer.prev, trailer);
     }
 
     @Override
     public void addFirst(E e) {
-        addBetween(e, head, head.next);
+        addBetween(e, header, header.next);
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        Node<E> curr = head.next;
-        while (curr != tail) {
+        Node<E> curr = header.next;
+        while (curr != trailer) {
             sb.append(curr.data);
             curr = curr.next;
-            if (curr != tail) {
+            if (curr != trailer) {
                 sb.append(", ");
             }
         }
