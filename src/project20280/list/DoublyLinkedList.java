@@ -7,9 +7,9 @@ import java.util.Iterator;
 public class DoublyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
-        private final E data;
+        private E data;
         private Node<E> next;
-        private final Node<E> prev;
+        private Node<E> prev;
 
         public Node(E e, Node<E> p, Node<E> n) {
             data = e;
@@ -31,9 +31,9 @@ public class DoublyLinkedList<E> implements List<E> {
 
     }
 
-    private final Node<E> head;
-    private final Node<E> tail;
-    private final int size = 0;
+    private Node<E> head;
+    private Node<E> tail;
+    private int size = 0;
 
     public DoublyLinkedList() {
         head = new Node<E>(null, null, null);
@@ -41,8 +41,14 @@ public class DoublyLinkedList<E> implements List<E> {
         head.next = tail;
     }
 
+    public int getSize(){
+        return size;
+    }
+
     private void addBetween(E e, Node<E> pred, Node<E> succ) {
-        // TODO
+        Node<E> newNode = new Node<E>(e, pred, succ);
+        pred.next = newNode;
+        succ.prev = newNode;
     }
 
     @Override
@@ -131,7 +137,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public void addFirst(E e) {
-        // TODO
+        addBetween(e, head, head.next);
     }
 
     public String toString() {
