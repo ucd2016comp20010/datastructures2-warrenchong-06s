@@ -74,7 +74,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (header.next == null) {
+        if (header.next.data == null) {
             return true;
         }
         return false;
@@ -197,8 +197,8 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     public E last() {
-        // TODO
-        return null;
+        if (isEmpty()) {return null;}
+        return get(size - 1);
     }
 
     @Override
