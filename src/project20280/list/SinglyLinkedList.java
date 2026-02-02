@@ -43,7 +43,6 @@ public class SinglyLinkedList<E> implements List<E> {
          * @return the following node
          */
         public Node<E> getNext() {
-            // TODO
             return next;
         }
 
@@ -88,6 +87,11 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E get(int position) {
+
+        if (position < 0 || position > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
         Node<E> cur = (Node<E>) head;
         E target = head.getElement();
         for (int i = 0; i < position; i++) {
@@ -99,29 +103,44 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public void add(int position, E e) {
-        Node<E> cur = (Node<E>) head;
-        //Count is 1, because if you wanted to add an element to the start, use addFirst() instead
-        int count = 1;
+        //Check if user wants to add at the start of the linked list
 
-        //Loop to check end of Linked List
-        while (cur.next != null) {
-
-            //Check if this position is the desired index
-            if (count == position) {
-
-                // if so, create a new node with the given element and the current position's destination as the next node
-                Node<E> newNode = new Node<>(e, cur.next);
-
-                //Set the current position's destination as the new node
-                cur.next = newNode;
-            }
-
-            //Add to tracker if not the position
-            count++;
-
-            //Keep moving through the Linked List
-            cur = cur.next;
+        if  (position < 0 || position > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
         }
+
+        if (position == 0){
+            //if so, use the addFirst Function instead
+            addFirst(e);
+        }
+        else {
+            Node<E> cur = (Node<E>) head;
+            //Count is 1, because if you wanted to add an element to the start, use addFirst() instead
+            int count = 1;
+
+            //Loop to check end of Linked List
+            while (cur.getNext() != null) {
+
+                //Check if this position is the desired index
+                if (count == position) {
+
+                    // if so, create a new node with the given element and the current position's destination as the next node
+                    Node<E> newNode = new Node<>(e, cur.next);
+
+                    //Set the current position's destination as the new node
+                    cur.next = newNode;
+                }
+
+                //Add to tracker if not the position
+                count++;
+
+                //Keep moving through the Linked List
+                cur = cur.next;
+            }
+            size++;
+
+        }
+
     }
 
 
@@ -149,6 +168,11 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E remove(int position) {
+
+        if (position < 0 || position > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
         Node<E> cur = (Node<E>) head;
         //Count is 1, because if you wanted to remove an element to the start, use removeFirst() instead
         int count = 1;
@@ -186,6 +210,11 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E removeFirst() {
+        if (head == null) {
+            System.out.println("Head is null, Your Linked is Empty");
+            return null;
+        }
+
         //Get the first element from the head
         E firstElement = head.getElement();
 
@@ -199,7 +228,29 @@ public class SinglyLinkedList<E> implements List<E> {
 
     @Override
     public E removeLast() {
-        return null;
+        if (head == null) {
+            System.out.println("Head is null, Your Linked is Empty");
+            return null;
+        }
+
+        Node<E> cur = (Node<E>) head;
+        Node<E> targetNode; //Node to be removed
+
+        System.out.println("Current Size: " + size);
+
+        //Loop to the second end of the list
+        while  (cur.next.next != null) {
+            System.out.println("Current Element: " + cur.getElement());
+            cur = cur.next; //Keep moving through the Linked List to the end
+
+        }
+
+        targetNode = cur.next; // Save the target node of the current node, as the one to be eliminated
+        System.out.println("Target Node: " + targetNode.getElement());
+        cur.next = null; //Set the destination node's next point as null.
+        size--; //Reduce the size of the list
+        return targetNode.getElement(); //Return the target node's element
+
     }
 
     //@Override
@@ -248,10 +299,10 @@ public class SinglyLinkedList<E> implements List<E> {
         ll.addFirst(4);
         ll.addLast(-1);
         System.out.println(ll);
-        ll.removeLast();
+        //ll.removeLast();
         ll.removeFirst();
         System.out.println("I accept your apology");
-        ll.add(3, 2);
+        ll.add(1, 2);
         System.out.println(ll);
         ll.remove(5);
         System.out.println(ll);
@@ -259,11 +310,21 @@ public class SinglyLinkedList<E> implements List<E> {
         System.out.println("Element at position 2: " + ll.get(2));
 
         //Check functionality of add()
-        ll.add(2, 100);
-        System.out.println(ll);
+        //ll.add(2, 100);
+        //System.out.println(ll);
 
         //Check functionality of remove()
         ll.remove(2);
+        System.out.println("");
+
+
+        System.out.println("Check functionality of removeFirst()");
+        ll.removeFirst();
+        System.out.println(ll);
+        System.out.println("");
+
+        System.out.println("Check functionality of removeLast()");
+        ll.removeLast();
         System.out.println(ll);
 
     }
