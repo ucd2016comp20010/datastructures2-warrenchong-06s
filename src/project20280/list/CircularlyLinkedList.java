@@ -101,9 +101,34 @@ public class CircularlyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E remove(int i) {
-        // TODO
-        return null;
+    public E remove(int index) {
+        //Check if the linked list is empty
+        if (tail == null) {
+            System.out.println("Circular Linked List is empty");
+            return null;
+        }
+
+        if (index == 0) {
+            return removeFirst();
+        }
+        else if (index == size - 1) {
+            return removeLast();
+        }
+        else{
+            //Find the head node
+            Node <E> cur = tail.next;
+
+            //Loop throught list to the targeted index
+            for (int i = 0; i < index; i++){
+                cur = cur.next;
+            }
+
+            // Set the tail as the index's predecessor
+            tail.next = cur;
+
+            size--; //reduce the size
+            return cur.data; //return the data of the deleted node
+        }
     }
 
     public void rotate() {
