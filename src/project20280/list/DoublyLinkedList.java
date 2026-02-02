@@ -132,9 +132,22 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E remove(int i) {
-        // TODO
-        return null;
+    public E remove(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
+        //Set current node as the head of the linked list
+        Node<E> cur = header.next;
+
+        //Loop for n amount of times to reach the desired index
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+
+        }
+
+        //Run the privater remove function on the current node, and return the data from the removed node
+        return remove(cur);
     }
 
     private class DoublyLinkedListIterator<E> implements Iterator<E> {
