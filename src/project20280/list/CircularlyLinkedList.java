@@ -54,7 +54,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 
         //Loop for n amount of times to reach the desired index
         for (int i = 0; i < index; i++) {
-            System.out.println("Current Element: " + cur.getData());
+            //System.out.println("Current Element: " + cur.getData());
             cur = cur.next;
         }
 
@@ -70,8 +70,34 @@ public class CircularlyLinkedList<E> implements List<E> {
      * @param e the new element to be stored
      */
     @Override
-    public void add(int i, E e) {
-        // TODO
+    public void add(int index, E e) {
+        //Validation check
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
+        if (size == 0){
+            addFirst(e);
+        }
+
+        else if (index == size - 1) {
+            addLast(e);
+        }
+
+        //Set the next node after the tail (or the "head") as the current node of the linked list
+        Node<E> cur = tail.next;
+
+        //Loop for n amount of times to reach the desired index, subtracted by one to account for starting at
+        //the head (tail.next) instead of the tail
+        for (int i = 0; i < index - 1; i++) {
+            //System.out.println("Current Element: " + cur.getData());
+            cur = cur.next;
+        }
+
+        //Insert a node with the element at the current position
+        Node<E> newNode = new Node<>(e, cur.next);
+        cur.next = newNode; //Update the current's destination with the new node
+        size++; // Increase the size of the list
     }
 
     @Override
