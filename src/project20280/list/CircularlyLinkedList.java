@@ -28,8 +28,8 @@ public class CircularlyLinkedList<E> implements List<E> {
         }
     }
 
-    private final Node<E> tail = null;
-    private final int size = 0;
+    private Node<E> tail = null;
+    private int size = 0;
 
     public CircularlyLinkedList() {
 
@@ -109,12 +109,27 @@ public class CircularlyLinkedList<E> implements List<E> {
 
     @Override
     public void addFirst(E e) {
-        // TODO
+        //If the list is empty
+        if (tail == null){
+
+            //Create the first node and set it as the end.
+            tail = new Node<>(e, null);
+            tail.next = tail;
+        } else {
+            //Else, Create the new node, but DON'T set it as the end
+            Node<E> head = tail.next;
+            Node<E> newNode = new Node<>(e, head);
+            tail.next = newNode;
+        }
+
+        size++;
     }
 
     @Override
     public void addLast(E e) {
-        // TODO
+        //insert a new node, and then set it as the new tail
+        addFirst(e);
+        tail = tail.next;
     }
 
 
