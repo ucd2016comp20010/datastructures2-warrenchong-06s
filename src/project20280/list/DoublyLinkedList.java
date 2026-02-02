@@ -53,8 +53,23 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public int size() {
-        // TODO
-        return 0;
+        //Start the loop at the head, instead of the header
+        Node<E> cur = header.next;
+        int count = 0;
+
+        if (cur.data == null){
+            return count;
+        }
+
+        while (cur != null) {
+            //Skip Trailer in Count
+            if (cur.next != trailer){
+                count++;
+            }
+            cur = cur.next;
+        }
+
+        return count;
     }
 
     @Override
@@ -128,6 +143,8 @@ public class DoublyLinkedList<E> implements List<E> {
             //Continue looping through the list
             cur = cur.next;
         }
+
+        size--; // Reduce the size
         //Return the data from the removed target node
         return targetNode.getData();
     }
@@ -165,11 +182,13 @@ public class DoublyLinkedList<E> implements List<E> {
     @Override
     public void addLast(E e) {
         addBetween(e, trailer.prev, trailer);
+        size++;
     }
 
     @Override
     public void addFirst(E e) {
         addBetween(e, header, header.next);
+        size++;
     }
 
     public String toString() {
@@ -202,6 +221,8 @@ public class DoublyLinkedList<E> implements List<E> {
 
         for (Integer e : ll) {
             System.out.println("value: " + e);
+
+            System.out.print("Check count: " + ll.size());
         }
     }
 }
