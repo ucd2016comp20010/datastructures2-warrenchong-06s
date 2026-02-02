@@ -236,11 +236,16 @@ public class SinglyLinkedList<E> implements List<E> {
         Node<E> cur = (Node<E>) head;
         Node<E> targetNode; //Node to be removed
 
-        System.out.println("Current Size: " + size);
+        //System.out.println("Current Size: " + size);
 
-        //Loop to the second end of the list
+        //If there's only one element in the Linked list, use the remove first function instead.
+        if (size == 1){
+            return removeFirst();
+        }
+
+        //Loop to the second last index of the list
         while  (cur.next.next != null) {
-            System.out.println("Current Element: " + cur.getElement());
+            //System.out.println("Current Element: " + cur.getElement());
             cur = cur.next; //Keep moving through the Linked List to the end
 
         }
