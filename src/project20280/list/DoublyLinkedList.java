@@ -100,8 +100,35 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(int i, E e) {
-        // TODO
+    public void add(int index, E e) {
+        //Argument Validation Check
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
+        //Check if Index is 0, if so, use the addFirst function
+        if (index == 0){
+            addFirst(e);
+        }
+
+        //Check if Index is the last element in the list, if so, use addLast
+        else if (index == size - 1){
+            addLast(e);
+
+        }
+
+         else {
+            //Set current node as the head of the linked list
+            Node<E> cur = header.next;
+
+            //Loop for n amount of times to reach the desired index
+            for (int i = 0; i < index; i++) {
+                cur = cur.next;
+            }
+
+            addBetween(e, cur.prev, cur);
+        }
+
     }
 
     @Override
