@@ -139,13 +139,22 @@ public class CircularlyLinkedList<E> implements List<E> {
 
     @Override
     public E removeFirst() {
-        // TODO
-        return null;
+        if (tail == null) {
+           System.out.println("Circular Linked List is empty");
+           return null;
+        }
+
+        Node <E> cur = tail.next;
+        tail.next = cur.next;
+
+        size--;
+        return cur.data;
     }
 
     @Override
     public E removeLast() {
-        // TODO
+
+        size--;
         return null;
     }
 
