@@ -81,9 +81,22 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E get(int i) {
-        // TODO
-        return null;
+    public E get(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Position entered is out of range of the linked list");
+        }
+
+        //Set current node as the head of the linked list
+        Node<E> cur = header.next;
+
+        //Loop for n amount of times to reach the desired index
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+
+        }
+
+        //Return the data of the node of the desired index
+        return cur.data;
     }
 
     @Override
