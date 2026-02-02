@@ -132,7 +132,16 @@ public class CircularlyLinkedList<E> implements List<E> {
     }
 
     public void rotate() {
-        // TODO
+        //Set the next node after the tail (or the "head") as the current node of the linked list
+        Node<E> cur = tail.next;
+
+        //Keep looping through the list until you reach the 2nd last value
+        for (int i = 0; i < size - 1; i++) {
+            cur = cur.next;
+        }
+
+        //Set the new tail as this 2nd last value
+        tail = cur.next;
     }
 
     private class CircularlyLinkedListIterator<E> implements Iterator<E> {
