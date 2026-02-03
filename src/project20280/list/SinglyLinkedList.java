@@ -3,7 +3,6 @@ package project20280.list;
 import project20280.interfaces.List;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
 
@@ -331,6 +330,22 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         head = prev;
     }
 
+    public SinglyLinkedList<E> clone() {
+        //Create the copy of the list
+        SinglyLinkedList<E> clone = new SinglyLinkedList<E>();
+
+        //set a pointer to the start of the list
+        Node<E> cur = head;
+
+        //Continue looping until the end of the linked list
+        while (cur != null) {
+            //Add the element from the current linked list to the new one
+            clone.addLast(cur.getElement());
+            cur = cur.next;
+        }
+        return clone;
+    }
+
     //@Override
     public Iterator<E> iterator() {
         return new SinglyLinkedListIterator<E>();
@@ -438,7 +453,9 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         l2.addLast(3);
         l2.addLast(4);
         System.out.println("\nTest 4 - [1,2,3,4]: " + l2.toString());
+        System.out.println("Copy of the list: " + l2.clone());
         l2.reverse();
         System.out.println("After reverse: " + l2.toString());
+
     }
 }
