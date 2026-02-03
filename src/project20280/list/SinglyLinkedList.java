@@ -3,8 +3,9 @@ package project20280.list;
 import project20280.interfaces.List;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
-public class SinglyLinkedList<E> implements List<E> {
+public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
 
     private static class Node<E> {
 
@@ -88,17 +89,17 @@ public class SinglyLinkedList<E> implements List<E> {
     @Override
     public E get(int position) {
 
-        if (position < 0 || position > size) {
-            throw new IllegalArgumentException("Position entered is out of range of the linked list");
-        }
+            if (position < 0 || position > size) {
+                throw new IllegalArgumentException("Position entered is out of range of the linked list");
+            }
 
-        Node<E> cur = (Node<E>) head;
-        E target = head.getElement();
-        for (int i = 0; i < position; i++) {
-            cur = cur.next;
-            target = cur.getElement();
-        }
-        return target;
+            Node<E> cur = (Node<E>) head;
+            E target = head.getElement();
+            for (int i = 0; i < position; i++) {
+                cur = cur.next;
+                target = cur.getElement();
+            }
+            return target;
     }
 
     @Override
@@ -258,6 +259,54 @@ public class SinglyLinkedList<E> implements List<E> {
 
     }
 
+    public SinglyLinkedList<E> sortedMerge(SinglyLinkedList<E> targetList) {
+        //Merged Linked List
+        SinglyLinkedList<E> mergedList = new SinglyLinkedList<>();
+
+        //Set pointers for both linked lists
+        Node<E> ll1cur = head;
+        Node<E> ll2cur = targetList.head;
+
+        //Loop through both linked lists until an endpoint is reached
+        while (ll1cur != null && ll2cur != null) {
+            //System.out.println("Current Node for LL1: " + ll1cur.getElement());
+            //System.out.println("Current Node for LL2: " + ll2cur.getElement());
+
+            //Compare the current nodes, if the node of LL1 is less than LL2
+            if (ll1cur.getElement().compareTo(ll2cur.getElement()) < 0) {
+                //Add that element to the merge and move the pointer to the next node
+                mergedList.addLast(ll1cur.getElement());
+                ll1cur = ll1cur.next;
+            } else {
+                //Else, add the element of the node of LL2 to the merge, and move its pointer instead
+                mergedList.addLast(ll2cur.getElement());
+                ll2cur = ll2cur.next;
+            }
+        }
+
+        //If the end of the first linked list is reached
+        if (ll1cur == null) {
+            //continue adding the elements of the second linked list to the merge
+            while (ll2cur != null) {
+                //System.out.println("Current Node for LL2: " + ll2cur.getElement());
+                mergedList.addLast(ll2cur.getElement());
+                ll2cur = ll2cur.next;
+            }
+        }
+
+        //If the end of the second linked list is reached
+        if (ll2cur == null) {
+            //continue adding the elements of the first linked list to the merge
+            while (ll1cur != null) {
+                //System.out.println("Current Node for LL1: " + ll1cur.getElement());
+                mergedList.addLast(ll1cur.getElement());
+                ll1cur = ll1cur.next;
+            }
+        }
+
+        return mergedList;
+    }
+
     //@Override
     public Iterator<E> iterator() {
         return new SinglyLinkedListIterator<E>();
@@ -294,9 +343,10 @@ public class SinglyLinkedList<E> implements List<E> {
 
     public static void main(String[] args) {
         SinglyLinkedList<Integer> ll = new SinglyLinkedList<Integer>();
-        System.out.println("ll " + ll + " isEmpty: " + ll.isEmpty());
+        //System.out.println("ll " + ll + " isEmpty: " + ll.isEmpty());
         //LinkedList<Integer> ll = new LinkedList<Integer>();
 
+        /*
         ll.addFirst(0);
         ll.addFirst(1);
         ll.addFirst(2);
@@ -331,6 +381,28 @@ public class SinglyLinkedList<E> implements List<E> {
         System.out.println("Check functionality of removeLast()");
         ll.removeLast();
         System.out.println(ll);
+        */
+
+        SinglyLinkedList<Integer> l1 = new SinglyLinkedList<Integer>();
+        SinglyLinkedList<Integer> l2 = new SinglyLinkedList<Integer>();
+        l1.addFirst(24);
+        l1.addFirst(20);
+        l1.addFirst(6);
+        l1.addFirst(2);
+
+        l2.addFirst(25);
+        l2.addFirst(19);
+        l2.addFirst(12);
+        l2.addFirst(8);
+        l2.addFirst(5);
+        l2.addFirst(3);
+        l2.addFirst(1);
+
+
+        //The resulting list is:
+        SinglyLinkedList<Integer> result = l1.sortedMerge(l2);
+        System.out.println(result);
+        // result = {1, 2, 3, 5, 6, 8, 12, 19, 20, 24, 25};
 
     }
 }
