@@ -307,6 +307,30 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         return mergedList;
     }
 
+    public void reverse(){
+
+
+        Node<E> prev = null; //Used to build the reverse linked list, building backwards
+        Node<E> cur = head;  // Current node to reverse
+        Node<E> next;        // Use to store the next node after the current.
+
+        //Loop to the end of the list
+        while (cur != null){
+            //next moves to the next unvisited node in the list
+            next = cur.next;
+
+            //this unvisited node is then built onto the reversed list
+            cur.next = prev;
+
+            //prev moves to the current node in the list
+            prev = cur;
+
+            //Cur moves to the next node on the list
+            cur = next;
+        }
+        head = prev;
+    }
+
     //@Override
     public Iterator<E> iterator() {
         return new SinglyLinkedListIterator<E>();
@@ -383,6 +407,8 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         System.out.println(ll);
         */
 
+        /*
+        // Test sortedMerge()
         SinglyLinkedList<Integer> l1 = new SinglyLinkedList<Integer>();
         SinglyLinkedList<Integer> l2 = new SinglyLinkedList<Integer>();
         l1.addFirst(24);
@@ -403,6 +429,16 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         SinglyLinkedList<Integer> result = l1.sortedMerge(l2);
         System.out.println(result);
         // result = {1, 2, 3, 5, 6, 8, 12, 19, 20, 24, 25};
+        */
 
+        //Test Reverse
+        SinglyLinkedList<Integer> l2 = new SinglyLinkedList<Integer>();
+        l2.addLast(1);
+        l2.addLast(2);
+        l2.addLast(3);
+        l2.addLast(4);
+        System.out.println("\nTest 4 - [1,2,3,4]: " + l2.toString());
+        l2.reverse();
+        System.out.println("After reverse: " + l2.toString());
     }
 }
