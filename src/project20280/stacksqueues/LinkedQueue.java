@@ -5,43 +5,40 @@ import project20280.list.DoublyLinkedList;
 
 public class LinkedQueue<E> implements Queue<E> {
 
-    private DoublyLinkedList<E> ll;
+    private DoublyLinkedList<E> dll = new DoublyLinkedList<>();
 
     public static void main(String[] args) {
     }
 
     public LinkedQueue() {
-        // TODO
     }
 
     @Override
     public int size() {
-        return ll.size();
+        return dll.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return ll.isEmpty();
+        return dll.isEmpty();
     }
 
     @Override
     public void enqueue(E e) {
-        // TODO
+        dll.addLast(e);
     }
 
     @Override
     public E first() {
-        // TODO
-        return null;
+        return dll.first();
     }
 
     @Override
     public E dequeue() {
-        // TODO
-        return null;
+        return dll.removeFirst();
     }
 
     public String toString() {
-        return ll.toString();
+        return dll.toString();
     }
 }
