@@ -4,14 +4,13 @@ import project20280.interfaces.Queue;
 
 public class ArrayQueue<E> implements Queue<E> {
 
-    private static final int CAPACITY = 1000;
+    private static int CAPACITY = 1000;
     private E[] data;
-    private final int front = 0;
-    private final int size = 0;
+    private int front = 0;
+    private int size = 0;
 
     public ArrayQueue(int capacity) {
-        // TODO
-
+        data = (E[]) new Object[capacity];
     }
 
     public ArrayQueue() {
@@ -31,7 +30,12 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public void enqueue(E e) {
-        // TODO
+        if (size == data.length) {
+            throw new IllegalStateException("Queue is full");
+        }
+        int avail = (front + size) % data.length; //Checks for the "closest" empty spot
+        data[avail] = e; // Places element in this empty spot
+        size++; //increment the current queue size
     }
 
     @Override
@@ -41,8 +45,24 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public E dequeue() {
-        // TODO
-        return null;
+        //If queue is empty, return null
+        if (isEmpty()) {
+            return null;
+        }
+        //Grab the data from the element that was in the longest
+        E ans = data[front];
+
+        //Free up the space that was the longest
+        data[front] = null;
+
+        //Find the next most longest occupied space
+        front = (front + 1) % data.length;
+
+        //Reduce the current queue size
+        size--;
+
+        return ans;
+
     }
 
     public String toString() {
