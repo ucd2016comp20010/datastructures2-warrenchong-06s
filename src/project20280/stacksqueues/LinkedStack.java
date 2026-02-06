@@ -5,43 +5,41 @@ import project20280.list.DoublyLinkedList;
 
 public class LinkedStack<E> implements Stack<E> {
 
-    DoublyLinkedList<E> ll;
+    DoublyLinkedList<E> dll = new DoublyLinkedList<>();
 
     public static void main(String[] args) {
     }
 
     public LinkedStack() {
-        // TODO
+
     }
 
     @Override
     public int size() {
-        return ll.size();
+        return dll.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return ll.isEmpty();
+        return dll.isEmpty();
     }
 
     @Override
     public void push(E e) {
-        // TODO
+        dll.addFirst(e);
     }
 
     @Override
     public E top() {
-        // TODO
-        return null;
+        return dll.first();
     }
 
     @Override
     public E pop() {
-        // TODO
-        return null;
+        return dll.removeFirst();
     }
 
     public String toString() {
-        return ll.toString();
+        return dll.toString();
     }
 }
