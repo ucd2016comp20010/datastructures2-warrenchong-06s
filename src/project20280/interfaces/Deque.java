@@ -16,6 +16,8 @@ public interface Deque<E> {
      */
     boolean isEmpty();
 
+    void enqueue(E e);
+
     /**
      * Returns (but does not remove) the first element of the deque.
      *
@@ -57,4 +59,6 @@ public interface Deque<E> {
      * @return element removed (or null if empty)
      */
     E removeLast();
+
+    E dequeue();
 }

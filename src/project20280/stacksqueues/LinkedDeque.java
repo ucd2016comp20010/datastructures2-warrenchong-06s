@@ -27,6 +27,11 @@ public class LinkedDeque<E> implements Deque<E> {
     }
 
     @Override
+    public void enqueue(E e) {
+        ll.addLast(e);
+    }
+
+    @Override
     public E first() {
         return ll.first();
     }
@@ -54,6 +59,11 @@ public class LinkedDeque<E> implements Deque<E> {
     @Override
     public E removeLast() {
         return ll.removeLast();
+    }
+
+    @Override
+    public E dequeue() {
+        return ll.removeFirst();
     }
 
     public String toString() {
