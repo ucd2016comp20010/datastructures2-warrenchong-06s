@@ -1,5 +1,7 @@
 package project20280.stacksqueues;
 
+import java.util.Scanner;
+
 class BracketChecker {
     private final String input;
 
@@ -7,8 +9,50 @@ class BracketChecker {
         input = in;
     }
 
-    public void check() {
-        // TODO
+    public boolean check() {
+        LinkedStack<Character> stack = new LinkedStack<>();
+
+
+
+        for (int i = 0; i < input.length(); i++) {
+            char chara = input.charAt(i);
+            //System.out.println(chara);
+            if (chara == '{' || chara == '[' || chara == '(') {
+                //System.out.println("Character pushed");
+                stack.push(chara);
+            }
+
+            if (chara == '}' || chara == ']' || chara == ')') {
+                if (!stack.isEmpty())
+                {
+                    char verify = stack.pop();
+                    //System.out.println("Character popped");
+                    if (chara == ')' && verify != '(') {
+                        //System.out.println(" ')' found, but no '('");
+                        break;
+                    }
+                    if (chara == '}' && verify != '{') {
+                        //System.out.println(" '}' found, but no '{'");
+                        break;
+                    }
+                    if (chara == ']' && verify != '[') {
+                        //System.out.println(" ']' found, but no '['");
+                        break;
+                    }
+                }
+                else {
+                    //System.out.println("Error, Stack is Empty");
+                    break;
+                }
+
+            }
+        }
+        if (stack.isEmpty()){
+            System.out.println("No Issues");
+        } else {
+            System.out.println("Remaining Parentheses leftover");
+        }
+        return stack.isEmpty();
     }
 
     public static void main(String[] args) {

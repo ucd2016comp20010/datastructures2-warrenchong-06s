@@ -49,6 +49,7 @@ public class DoublyLinkedList<E> implements List<E> {
         Node<E> newNode = new Node<E>(e, pred, succ);
         pred.next = newNode;
         succ.prev = newNode;
+        size++;
     }
 
     @Override
@@ -74,7 +75,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (header.next.data == null) {
+        if (size == 0) {
             return true;
         }
         return false;
@@ -235,13 +236,11 @@ public class DoublyLinkedList<E> implements List<E> {
     @Override
     public void addLast(E e) {
         addBetween(e, trailer.prev, trailer);
-        size++;
     }
 
     @Override
     public void addFirst(E e) {
         addBetween(e, header, header.next);
-        size++;
     }
 
     public String toString() {
