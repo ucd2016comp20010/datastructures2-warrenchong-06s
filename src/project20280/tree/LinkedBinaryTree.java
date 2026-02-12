@@ -161,15 +161,16 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         size++;
         return root;
     }
-
+    // TODO
     public void insert(E e) {
-        // TODO
+
 
     }
 
+    // TODO
     // recursively add Nodes to binary tree in proper position
     private Node<E> addRecursive(Node<E> p, E e) {
-        // TODO
+
         return null;
     }
 
@@ -184,8 +185,15 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalArgumentException if p already has a left child
      */
     public Position<E> addLeft(Position<E> p, E e) throws IllegalArgumentException {
-        // TODO
-        return null;
+        Node<E> parent = validate(p);
+        if (parent.getLeft() != null){
+            System.out.println("This already has a left Child node");
+            return null;
+        }
+        Node<E> child = createNode(e, parent, null, null);
+        parent.setLeft(child);
+        size++;
+        return child;
     }
 
     /**
