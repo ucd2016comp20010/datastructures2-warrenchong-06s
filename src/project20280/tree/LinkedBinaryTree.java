@@ -336,12 +336,22 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     }
 
     public void createLevelOrder(ArrayList<E> l) {
-        // TODO
+        root = createLevelOrderHelper(l, root, 0);
     }
 
     private Node<E> createLevelOrderHelper(ArrayList<E> l, Node<E> p, int i) {
-        // TODO
-        return null;
+        if (l.isEmpty()) {
+            System.out.print("The List is empty");
+            return null;
+        }
+        if (i < l.size()){
+            Node<E> n = createNode(l.get(i), p, null, null);
+            n.left = createLevelOrderHelper(l, n.left, (2*i)+1);
+            n.right = createLevelOrderHelper(l, n.right, (2*i)+2);
+            ++size;
+            return n;
+        }
+        return p;
     }
 
     public void createLevelOrder(E[] arr) {
@@ -349,8 +359,19 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     }
 
     private Node<E> createLevelOrderHelper(E[] arr, Node<E> p, int i) {
-        // TODO
-        return null;
+        if (arr.length <= 0){
+            System.out.print("The Array is empty");
+            return null;
+        }
+
+        if (i < arr.length){
+            Node<E> n = createNode(arr[i], p, null, null);
+            n.left = createLevelOrderHelper(arr, n.left, (2*i)+1);
+            n.right = createLevelOrderHelper(arr, n.right, (2*i)+2);
+            ++size;
+            return n;
+        }
+        return p;
     }
 
     public String toBinaryTreeString() {
