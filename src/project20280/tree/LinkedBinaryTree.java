@@ -3,6 +3,7 @@ package project20280.tree;
 import project20280.interfaces.Position;
 
 import java.util.ArrayList;
+import java.util.Random;
 //import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
-    static java.util.Random rnd = new java.util.Random();
+    static Random rnd = new Random();
     /**
      * The root of the binary tree
      */
@@ -228,8 +229,10 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalArgumentException if p is not a valid Position for this tree.
      */
     public E set(Position<E> p, E e) throws IllegalArgumentException {
-        // TODO
-        return null;
+        Node<E> targetNode = validate(p);
+        E oldData = targetNode.getElement();
+        targetNode.setElement(e);
+        return oldData;
     }
 
     /**
@@ -243,7 +246,30 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalArgumentException if p is not a leaf
      */
     public void attach(Position<E> p, LinkedBinaryTree<E> t1, LinkedBinaryTree<E> t2) throws IllegalArgumentException {
-        // TODO
+        Node<E> targetNode = validate(p);
+
+        if (targetNode != null){
+            throw new IllegalArgumentException("This node is not a leaf, it contains a child node");
+        }
+
+        size += t1.size + t2.size;
+
+        if (!t1.isEmpty()){
+            t1.root.setParent(targetNode);
+            targetNode.setLeft(t1.root);
+            t1.root = null;
+            t1.size = 0;
+        }
+
+        if (!t2.isEmpty()){
+            t2.root.setParent(targetNode);
+            targetNode.setRight(t2.root);
+            t2.root = null;
+            t2.size = 0;
+        }
+
+
+
     }
 
     /**
@@ -255,8 +281,54 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalArgumentException if p has two children.
      */
     public E remove(Position<E> p) throws IllegalArgumentException {
-        // TODO
-        return null;
+        if (numChildren(p) == 2) {
+            System.out.println("Cannot remove node as it is a proper node with 2 children");
+            return null;
+        }
+        Node<E> parent = validate(p);
+        Node<E> child = null;
+
+        //Determine which node is the child node containing data
+        if (parent.getLeft() != null) {
+            child = parent.getLeft();
+        }
+        if (parent.getRight() != null) {
+            child = parent.getRight();
+        }
+
+        //Set new links for the Child node if there was a Grandparent
+        //Grandparent -> Parent -> Child
+        //Grandparent -> Child
+        if (child != null){
+            child.setParent(parent.getParent());
+        }
+
+        // if the parent was the root node, set the child as the new root
+        if (parent == root) {
+            root = child;
+        }
+        //Else, find out the location of Parent node as a child to the grandparent
+        else {
+            Node<E> grandparent = parent.getParent();
+
+            //Set the new child node of the grandparent to be the child node of the parent
+            if (parent == grandparent.getLeft()) {
+                grandparent.setLeft(child);
+            }
+            else {
+                grandparent.setRight(child);
+            }
+        }
+        size--; //Reduce Size
+        E oldData = parent.getElement(); //Retrieve old Data
+
+        //Remove connections
+        parent.setElement(null);
+        parent.setLeft(null);
+        parent.setRight(null);
+        parent.setParent(parent);
+
+        return oldData;
     }
 
     public String toString() {
@@ -267,7 +339,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         // TODO
     }
 
-    private Node<E> createLevelOrderHelper(java.util.ArrayList<E> l, Node<E> p, int i) {
+    private Node<E> createLevelOrderHelper(ArrayList<E> l, Node<E> p, int i) {
         // TODO
         return null;
     }
