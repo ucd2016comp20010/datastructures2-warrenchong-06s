@@ -3,6 +3,7 @@ package project20280.tree;
 import project20280.interfaces.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 //import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -60,6 +61,24 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         String[] arr = { "A", "B", "C", "D", "E", null, "F", null, null, "G", "H", null, null, null, null };
         bt.createLevelOrder(arr);
         System.out.println(bt.toBinaryTreeString());
+
+
+
+        Integer [] arr2 = new Integer [] {1,
+                2,3,
+                4,5,6,7,
+                8,9,10,11,12,13,14,15,
+                16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+                null ,null ,null ,35};
+
+        LinkedBinaryTree<Integer> bt2 = new LinkedBinaryTree<Integer>();
+        bt2.createLevelOrder(arr2);
+        System.out.println("New tree: " + bt2.toBinaryTreeString());
+        System.out.println("The height of the tree is " + bt2.height_recursive(bt2.root()));
+        System.out.println("The amount of calls taken by the function is " + callCount);
+        System.out.println("The diameter of the tree is " + bt2.getDiameter());
+
+
     }
 
 
@@ -457,4 +476,37 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
             return sb.toString();
         }
     }
+
+    private static int diameter = 0;
+    public int diameter_recursive(Position<E> p) {
+        Position<E> leftChild = left(p);    // null if no left
+        Position<E> rightChild = right(p);  // null if no right
+
+        int left = 0;
+        int right = 0;
+
+        if (leftChild != null) {
+            left = diameter_recursive(leftChild);
+        }
+
+        if (rightChild != null) {
+            right = diameter_recursive(rightChild);
+        }
+
+        diameter = Math.max(diameter, left + right);
+
+        return 1 + Math.max(left, right);
+    }
+
+    public int getDiameter() {
+        diameter = 0;
+        if (!isEmpty()) {
+            diameter_recursive(root());
+        }
+        return diameter;  // 10 for your array!
+    }
+
+
 }
+
+

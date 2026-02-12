@@ -140,13 +140,19 @@ public abstract class AbstractTree<E> implements Tree<E> {
         return h;
     }
 
+    public static int callCount;
+
     public int height_recursive(Position<E> p) {
+        callCount++;
         int h = 0;
         for (Position<E> c : children(p)) {
             h = Math.max(h, 1 + height_recursive(c));
         }
         return h;
     }
+
+
+
 
     /**
      * Returns the height of the subtree rooted at Position p.
