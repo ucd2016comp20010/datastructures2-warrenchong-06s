@@ -10,49 +10,7 @@ import java.util.ArrayList;
  * structure.
  */
 public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
-    protected static class Node<E> implements Position<E>{
-        private E e; //Data stored into the node
-        private Node<E> parent; //Reference to parent node
-        private Node<E> left; //Reference to left child node
-        private Node<E> right; //Reference to right child node
 
-        //Constructor
-        public Node(E element, Node<E> parentNode, Node<E> leftChild, Node<E> rightChild) {
-            e = element;
-            parent = parentNode;
-            left = leftChild;
-            right = rightChild;
-        }
-
-        //Accessors
-        public E getE() {
-            return e;
-        }
-        public Node<E> getParent() {
-            return parent;
-        }
-        public Node<E> getLeft() {
-            return left;
-        }
-        public Node<E> getRight() {
-            return right;
-        }
-
-        //Setters
-        public void setE(E e) {
-            this.e = e;
-        }
-        public void setParent(Node<E> parent) {
-            this.parent = parent;
-        }
-        public void setLeft(Node<E> left) {
-            this.left = left;
-        }
-        public void setRight(Node<E> right) {
-            this.right = right;
-        }
-
-    }
     static java.util.Random rnd = new java.util.Random();
     /**
      * The root of the binary tree
@@ -195,8 +153,13 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalStateException if the tree is not empty
      */
     public Position<E> addRoot(E e) throws IllegalStateException {
-        // TODO
-        return null;
+        if (!isEmpty()) {
+            System.out.println("Tree is not Empty");
+            return null;
+        }
+        root = createNode(e, null,  null, null);
+        size++;
+        return root;
     }
 
     public void insert(E e) {
