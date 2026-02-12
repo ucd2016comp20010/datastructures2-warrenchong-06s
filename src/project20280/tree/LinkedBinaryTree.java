@@ -162,18 +162,38 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         size++;
         return root;
     }
-    // TODO
+
     public void insert(E e) {
-
-
+        if (isEmpty()){
+            addRoot(e);
+        } else {
+            root = addRecursive(root, e);
+        }
     }
 
-    // TODO
+
+
     // recursively add Nodes to binary tree in proper position
     private Node<E> addRecursive(Node<E> p, E e) {
 
-        return null;
+        if (p == null) {
+            size++;
+            return createNode(e, p,  null, null);
+        }
+        Comparable<? super E> key = (Comparable<? super E>) e;
+        if (key.compareTo(p.getElement()) < 0) {
+            Node<E> left = addRecursive(p.getLeft(), e);
+            p.setLeft(left);
+            left.setParent(p);
+        } else {
+            Node<E> right = addRecursive(p.getRight(), e);
+            p.setRight(right);
+            right.setParent(p);
+        }
+
+        return p;
     }
+
 
     /**
      * Creates a new left child of Position p storing element e and returns its
