@@ -24,8 +24,23 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      */
     @Override
     public Position<E> sibling(Position<E> p) {
-        // TODO
-        return null;
+        //Define the parent node of the child node given
+        Position<E> parent = parent(p);
+
+        //If the parent has no children, return null
+        if (parent == null) {
+            return null;
+        }
+
+        //If the child is the left node of the parent, return the right node of the parent, (i.e, the sibling)
+        if (p == left(parent)) {
+            return right(parent);
+        }
+
+        //Else, the child is the right node of the parent, and hence, return the left node of the parent, (i.e the sibling)
+        else {
+            return left(parent);
+        }
     }
 
     /**
@@ -37,12 +52,23 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      */
     @Override
     public int numChildren(Position<E> p) {
-        // TODO
-        return 0;
+        int count = 0;
+
+        //if there is a child in the left node of the parent, increment
+        if (left(p) != null) {
+            count++;
+        }
+        //if there is a child in the right node of the parent, increment
+        if (right(p) != null) {
+            count++;
+        }
+
+        return count;
     }
 
     /**
-     * Returns an iterable collection of the Positions representing p's children.
+     * Returns an iterable collection (list) of the Positions representing p's children.
+     * i.e, a smaller list which only contains the children
      *
      * @param p A valid Position within the tree
      * @return iterable collection of the Positions of p's children
@@ -66,7 +92,15 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E>
      * @param snapshot a list to which results are appended
      */
     private void inorderSubtree(Position<E> p, List<Position<E>> snapshot) {
-        // TODO
+        if (left(p) != null){
+            inorderSubtree(left(p), snapshot);
+        }
+        snapshot.add(p);
+        if (right(p) != null){
+            inorderSubtree(right(p), snapshot);
+        }
+
+
     }
 
     /**
