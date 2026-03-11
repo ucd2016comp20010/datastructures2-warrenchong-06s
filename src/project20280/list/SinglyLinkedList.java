@@ -330,6 +330,29 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         head = prev;
     }
 
+    public void reverseRecursive(Node<E> e) {
+
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        reverseRecursiveHelper(head);
+
+    }
+
+    private void reverseRecursiveHelper(Node<E> node) {
+        if (node.next == null) {
+            head = node;
+            return;
+        }
+
+        reverseRecursiveHelper(node.next);
+        node.next.next = node;
+        node.next = null;
+
+
+    }
+
     public SinglyLinkedList<E> clone() {
         //Create the copy of the list
         SinglyLinkedList<E> clone = new SinglyLinkedList<E>();
@@ -346,6 +369,21 @@ public class SinglyLinkedList<E extends Comparable<E>> implements List<E> {
         return clone;
     }
 
+    public SinglyLinkedList<E> recursiveCopy(){
+        //Create the copy of the list
+        SinglyLinkedList<E> clone = new SinglyLinkedList<E>();
+        recursiveCopyHelper(head, clone);
+        return clone;
+    }
+
+    private void recursiveCopyHelper(Node<E> current, SinglyLinkedList<E> clone){
+        if (current == null) {
+            return;
+        }
+
+        clone.addLast(current.getElement());
+        recursiveCopyHelper(current.next, clone);
+    }
     //@Override
     public Iterator<E> iterator() {
         return new SinglyLinkedListIterator<E>();

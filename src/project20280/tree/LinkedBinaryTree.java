@@ -3,7 +3,6 @@ package project20280.tree;
 import project20280.interfaces.Position;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 //import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -57,13 +56,18 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     // accessor methods (not already implemented in AbstractBinaryTree)
 
     public static void main(String [] args) {
+
+        /*
+        //Q1 - Week 4
+
         LinkedBinaryTree<String> bt = new LinkedBinaryTree<>();
         String[] arr = { "A", "B", "C", "D", "E", null, "F", null, null, "G", "H", null, null, null, null };
         bt.createLevelOrder(arr);
         System.out.println(bt.toBinaryTreeString());
+        */
 
-
-
+        //h(i) - Week 3
+        /*
         Integer [] arr2 = new Integer [] {1,
                 2,3,
                 4,5,6,7,
@@ -77,8 +81,61 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
         System.out.println("The height of the tree is " + bt2.height_recursive(bt2.root()));
         System.out.println("The amount of calls taken by the function is " + callCount);
         System.out.println("The diameter of the tree is " + bt2.getDiameter());
+        */
+        Integer []inorder = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
+        Integer []preorder = {18, 2, 1, 14, 13, 12, 4, 3, 9, 6, 5, 8, 7, 10, 11, 15, 16,17, 28, 23, 19, 22, 20, 21, 24, 27, 26, 25, 29, 30};
+
+        LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<>();
+        bt.construct(inorder, preorder);
+        System.out.println(bt.toBinaryTreeString());
+        //System.out.println(bt.rootToLeafPaths());
+        bt.printLeafNodes();
 
 
+
+
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public Node<E> construct(E[] inorder, E[] preorder) {
+        if (inorder == null || preorder == null || inorder.length != preorder.length) {
+            System.out.println("Either one of the arrays (or both) is empty, or they aren't of the same length");
+            return null;
+        }
+        int [] preOrderIndex = {0};
+        this.root = constructRecursive(inorder, preorder, 0, inorder.length - 1, preOrderIndex, root);
+        return this.root;
+    }
+
+    private Node<E> constructRecursive(E[] inorder, E[] preorder, int inorderStart, int inorderEnd, int[] preOrderIndex, Node<E> parent) {
+        //Base Case: Empty Subtree
+        if (inorderStart > inorderEnd) {
+            return null;
+        }
+
+        //Root is the next element in the preorder
+        E rootValue = preorder[preOrderIndex[0]++];
+        Node<E> root = new Node<>(rootValue, null, null, null);
+
+        int inOrderIndex = findInorderIndex(inorder, inorderStart, inorderEnd, rootValue);
+        root.left = constructRecursive(inorder, preorder, inorderStart, inOrderIndex - 1, preOrderIndex, root);
+        root.right = constructRecursive(inorder, preorder, inOrderIndex + 1, inorderEnd, preOrderIndex, root);
+
+        return root;
+
+    }
+
+    private int findInorderIndex(E[] inorder, int inorderStart, int inorderEnd, E e) {
+        for (int i = inorderStart; i <= inorderEnd; i++) {
+            if (inorder[i].equals(e)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
@@ -189,8 +246,6 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
             root = addRecursive(root, e);
         }
     }
-
-
 
     // recursively add Nodes to binary tree in proper position
     private Node<E> addRecursive(Node<E> p, E e) {
@@ -416,6 +471,60 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     public String toBinaryTreeString() {
         BinaryTreePrinter<E> btp = new BinaryTreePrinter<>(this);
         return btp.print();
+    }
+
+    public ArrayList<ArrayList<E>> rootToLeafPaths() {
+        ArrayList<ArrayList<E>> paths = new ArrayList<>();
+
+        if (!isEmpty()) {
+            ArrayList<E> currentPath = new ArrayList<>();
+            collectPaths(root(), currentPath, paths);
+        }
+
+        return paths;
+    }
+
+    private void collectPaths(Position<E> p, ArrayList<E> currentPath, ArrayList<ArrayList<E>> paths) {
+        if (p == null) {
+            return;
+        }
+
+        currentPath.add(p.getElement());
+
+        if (isExternal(p)) {
+            paths.add(new ArrayList<>(currentPath));
+        } else {
+            Position<E> leftChild = left(p);
+            Position<E> rightChild = right(p);
+
+            if (leftChild != null) {
+                collectPaths(leftChild, currentPath, paths);
+            }
+            if (rightChild != null) {
+                collectPaths(rightChild, currentPath, paths);
+            }
+        }
+
+        currentPath.remove(currentPath.size() - 1);
+    }
+
+    public void printLeafNodes() {
+        printLeafNodesHelper(root());
+        System.out.println();
+    }
+
+    private void printLeafNodesHelper(Position<E> p) {
+        if (p == null) {
+            return;
+        }
+
+        if (isExternal(p)) {
+            System.out.print(p.getElement() + " ");
+            return;
+        }
+
+        printLeafNodesHelper(left(p));
+        printLeafNodesHelper(right(p));
     }
 
     /**

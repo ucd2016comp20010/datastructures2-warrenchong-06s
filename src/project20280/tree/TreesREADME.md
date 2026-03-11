@@ -15,4 +15,4 @@ positions() on preorder():
 To Me, the program seems to go into the first branch, then the first option of the second branch and there on and so forth until it reaches a point of no return, then it moves to the previous branch that it did not explore before exploring that to its deepest point, before repeating the process until there are no more branches left to explore
 
 (h) The height of the tree is 5
-I would expect that given the complexit of the algorithm is o(n), that it would take the amount of calls as there are elements in the tree. 
+I would expect that given the complexity of the algorithm is o(n), that it would take the amount of calls as there are elements in the tree. 
