@@ -4,9 +4,9 @@ package project20280.priorityqueue;
  */
 
 import project20280.interfaces.Entry;
+import project20280.interfaces.PriorityQueue;
 
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 
 
 /**
@@ -51,30 +51,15 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
     }
 
     // protected utilities
-    protected int parent(int j) {
-        // TODO
-        return (j-1)/2;
-    }
+    protected int parent(int j) {return (j-1)/2; }
 
-    protected int left(int j) {
-        // TODO
-        return (2*j)+1;
-    }
+    protected int left(int j) { return (2*j)+1; }
 
-    protected int right(int j) {
-        // TODO
-        return (2*j)+2;
-    }
+    protected int right(int j) { return (2*j)+2; }
 
-    protected boolean hasLeft(int j) {
-        // TODO
-        return left(j) < heap.size();
-    }
+    protected boolean hasLeft(int j) { return left(j) < heap.size(); }
 
-    protected boolean hasRight(int j) {
-        // TODO
-        return right(j) < heap.size();
-    }
+    protected boolean hasRight(int j) { return right(j) < heap.size(); }
 
     /**
      * Exchanges the entries at indices i and j of the array list.
@@ -184,6 +169,18 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         return root;
     }
 
+    public static <E> void pqSort(LinkedList<E> S, PriorityQueue<E,?> P){
+        int n = S.size();
+        for (int j = 0; j < n; j++) {
+            E element = S.remove();
+            P.insert(element, null);
+        }
+        for (int j = 0; j < n; j++) {
+            E element = P.removeMin().getKey();
+            S.addLast(element);
+        }
+    }
+
     public String toString() {
         return heap.toString();
     }
@@ -212,9 +209,12 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
 
     public static void main(String[] args) {
         Integer[] rands = new Integer[]{35, 26, 15, 24, 33, 4, 12, 1, 23, 21, 2, 5};
-        HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>(rands, rands);
 
-        System.out.println("elements: " + rands);
+        /*
+        //original main
+
+        HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>(rands, rands);
+        System.out.println("elements: " + Arrays.toString(rands));
         System.out.println("after adding elements: " + pq);
 
         System.out.println("min element: " + pq.min());
@@ -225,5 +225,49 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         //        2,            4,
         //   23,     21,      5, 12,
         // 24, 26, 35, 33, 15]
+         */
+
+        //Q5(d)
+        /*
+        HeapPriorityQueue<Integer, Integer> pqFast = new HeapPriorityQueue<>(rands, rands);
+        System.out.println("built with O(n) constructor: " + pqFast);
+
+        HeapPriorityQueue<Integer, Integer> pqInsert = new HeapPriorityQueue<>();
+        for (Integer x : rands) {
+            pqInsert.insert(x, x);
+        }
+        System.out.println("built with repeated inserts: " + pqInsert);
+
+        System.out.println("min in fast heap: " + pqFast.min());
+        System.out.println("min in insert heap: " + pqInsert.min());
+
+        pqFast.removeMin();
+        System.out.println("fast heap after removeMin: " + pqFast);
+         */
+
+        //Q6
+        /*
+        int[] sizes = {1000, 5000, 10000, 50000, 100000, 500000, 1000000};
+        Random rand = new Random(42);
+
+        System.out.printf("%-12s %-15s%n", "n", "time (ms)");
+
+        for (int n : sizes) {
+            LinkedList<Integer> list = new LinkedList<>();
+            for (int i = 0; i < n; i++) {
+                list.add(rand.nextInt());
+            }
+
+            PriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>();
+
+            long start = System.nanoTime();
+            pqSort(list, pq);
+            long end = System.nanoTime();
+
+            double timeMs = (end - start) / 1_000_000.0;
+            System.out.printf("%-12d %-15.3f%n", n, timeMs);
+        }
+         */
     }
+
 }
