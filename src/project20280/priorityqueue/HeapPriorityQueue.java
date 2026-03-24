@@ -185,6 +185,44 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         return heap.toString();
     }
 
+    private static <E extends Comparable<E>> void arrayDownHeap(E[] arr, int j, int heapSize) {
+        while (true) {
+            int left = 2 * j + 1;
+            int right = 2 * j + 2;
+            int largest = j;
+
+            if (left < heapSize && arr[left].compareTo(arr[largest]) > 0) { largest = left; }
+
+            if (right < heapSize && arr[right].compareTo(arr[largest]) > 0) { largest = right; }
+
+            if (largest == j) { break; }
+
+            arraySwap(arr, j, largest);
+            j = largest;
+        }
+    }
+    private static <E> void arraySwap(E[] arr, int i, int j) {
+        E temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    private static <E extends Comparable<E>> void arrayHeapify(E[] arr) {
+        int start = (arr.length / 2) - 1;
+        for (int j = start; j >= 0; j--) {
+            arrayDownHeap(arr, j, arr.length);
+        }
+    }
+
+    public static <E extends Comparable<E>> void heapSort(E[] arr) {
+        arrayHeapify(arr);
+
+        for (int end = arr.length - 1; end > 0; end--) {
+            arraySwap(arr, 0, end);
+            arrayDownHeap(arr, 0, end);
+        }
+    }
+
     /**
      * Used for debugging purposes only
      */
@@ -245,29 +283,39 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         System.out.println("fast heap after removeMin: " + pqFast);
          */
 
-        //Q6
+
+        //Q6 and Q7
         /*
         int[] sizes = {1000, 5000, 10000, 50000, 100000, 500000, 1000000};
         Random rand = new Random(42);
 
-        System.out.printf("%-12s %-15s%n", "n", "time (ms)");
+        System.out.printf("%-12s %-15s %-15s%n", "n", "pqSort (ms)", "heapSort (ms)");
 
         for (int n : sizes) {
-            LinkedList<Integer> list = new LinkedList<>();
+            Integer[] data = new Integer[n];
             for (int i = 0; i < n; i++) {
-                list.add(rand.nextInt());
+                data[i] = rand.nextInt();
             }
+
+            LinkedList<Integer> list = new LinkedList<>(Arrays.asList(data));
+            Integer[] arr = Arrays.copyOf(data, data.length);
 
             PriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<>();
 
-            long start = System.nanoTime();
+            long startPQ = System.nanoTime();
             pqSort(list, pq);
-            long end = System.nanoTime();
+            long endPQ = System.nanoTime();
 
-            double timeMs = (end - start) / 1_000_000.0;
-            System.out.printf("%-12d %-15.3f%n", n, timeMs);
+            long startHeap = System.nanoTime();
+            heapSort(arr);
+            long endHeap = System.nanoTime();
+
+            double pqTimeMs = (endPQ - startPQ) / 1_000_000.0;
+            double heapTimeMs = (endHeap - startHeap) / 1_000_000.0;
+
+            System.out.printf("%-12d %-15.3f %-15.3f%n", n, pqTimeMs, heapTimeMs);
         }
          */
-    }
 
+    }
 }
